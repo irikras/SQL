@@ -27,10 +27,10 @@ public class SQLDbUtils {
                 var conn = DriverManager.getConnection(
                         "jdbc:mysql://localhost:3306/app", "user", "pass");
         ) {
-            runner.update(conn, cleanUsers);
-            runner.update(conn, cleanCodes);
-            runner.update(conn, cleanCards);
             runner.update(conn, cleanCardTransactions);
+            runner.update(conn, cleanCards);
+            runner.update(conn, cleanCodes);
+            runner.update(conn, cleanUsers);
         }
     }
     public static VerificationCode getVerificationCode() throws SQLException {
