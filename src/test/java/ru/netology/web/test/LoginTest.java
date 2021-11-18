@@ -9,7 +9,6 @@ import ru.netology.web.data.SQLDbUtils;
 import ru.netology.web.page.LoginPage;
 
 import static com.codeborne.selenide.Selenide.open;
-import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class LoginTest {
 
@@ -44,8 +43,7 @@ public class LoginTest {
         loginPage.validLogin(authInfo);
         loginPage.cleanLoginFields();
         loginPage.validLogin(authInfo);
-        var statusSQL = SQLDbUtils.getVerificationCode();
-        assertEquals("blocked", statusSQL);
+        loginPage.getErrorMessageIfBlocked();
     }
 }
 

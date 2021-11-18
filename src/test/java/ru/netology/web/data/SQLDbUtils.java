@@ -12,7 +12,7 @@ public class SQLDbUtils {
     }
 
     @Value
-    public static class CodeInfo {
+    public static class VerificationCode {
         String code;
     }
 
@@ -27,22 +27,22 @@ public class SQLDbUtils {
                 var conn = DriverManager.getConnection(
                         "jdbc:mysql://localhost:3306/app", "user", "pass");
         ) {
-            runner.update(conn, cleanCardTransactions);
-            runner.update(conn, cleanCards);
-            runner.update(conn, cleanCodes);
             runner.update(conn, cleanUsers);
+            runner.update(conn, cleanCodes);
+            runner.update(conn, cleanCards);
+            runner.update(conn, cleanCardTransactions);
         }
     }
-    public static CodeInfo getVerificationCode() throws SQLException {
+    public static VerificationCode getVerificationCode() throws SQLException {
         var getCode = "SELECT code FROM auth_codes ORDER BY created DESC LIMIT 1;";
         var runner = new QueryRunner();
 
         try (
                 var conn = DriverManager.getConnection(
-                        "jdbc:mysql://localhost:3306/app", "app", "pass")
+                        "jdbc:mysql://localhost:3306/app", "user", "pass")
         ) {
             var code = runner.query(conn, getCode, new ScalarHandler<>());
-            return new CodeInfo(code.toString());
+            return new VerificationCode(code.toString());
         }
     }
 }
