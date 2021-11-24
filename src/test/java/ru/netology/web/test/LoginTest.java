@@ -18,23 +18,21 @@ public class LoginTest {
     }
 
     @AfterAll
-    @SneakyThrows
     static void shouldCleanAll() {
         SQLDbUtils.cleanTables();
     }
 
     @Test
-    @SneakyThrows
     void shouldLogin() {
         var loginPage = new LoginPage();
         var authInfo = DataHelper.getAuthInfo();
         var verificationPage = loginPage.validLogin(authInfo);
         var verificationCode = SQLDbUtils.getVerificationCode();
-        verificationPage.validVerify(verificationCode);
+        var verify = verificationPage.validVerify(verificationCode);
+        verify.checkIfVisible();
     }
 
     @Test
-    @SneakyThrows
     void shouldBlockedIfPasswordInvalid() {
         var loginPage = new LoginPage();
         var authInfo = DataHelper.getAuthInfoWithInvalidPassword();
